@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Question For Manya ✨</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cormorant Garamond, Dancing Script, Plus Jakarta Sans, Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cream: '#FDFBF7',
+              ivory: '#F9F5EE',
+              paper: '#FAF6F0',
+              blush: '#EBDCD7',
+              rose: '#C98B8B',
+              burgundy: '#5B1824',
+              burgundyDark: '#3A0B13',
+              champagne: '#E5C392',
+              gold: '#D4AF37',
+              charcoal: '#241D1E',
+              muted: '#7B6F71'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            script: ['"Caveat"', 'cursive'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom subtle keyframes and effects */
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+      50% { transform: translateY(-18px) rotate(8deg); opacity: 0.75; }
+    }
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.025); opacity: 1; }
+    }
+    @keyframes gentleDrift {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(12px, -8px) scale(1.03); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+    @keyframes envelopeFlap {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(180deg); }
+    }
+    @keyframes fallingPetal {
+      0% { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+      20% { opacity: 0.8; }
+      80% { opacity: 0.7; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+
+    .animate-float {
+      animation: floatParticle 7s ease-in-out infinite;
+    }
+    .animate-pulse-glow {
+      animation: subtlePulse 4s ease-in-out infinite;
+    }
+    .bg-drift {
+      animation: gentleDrift 22s ease-in-out infinite;
+    }
+
+    /* Paper texture simulation */
+    .paper-texture {
+      background-color: #FAF6F0;
+      background-image: radial-gradient(#d3c6b5 0.75px, transparent 0.75px), radial-gradient(#d3c6b5 0.75px, #FAF6F0 0.75px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+    }
+
+    /* Screen transitions */
+    .screen-view {
+      transition: opacity 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .screen-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(18px) scale(0.985);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      visibility: hidden;
+    }
+    .screen-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      position: relative;
+      visibility: visible;
+    }
+
+    /* Glass overlay */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(229, 195, 146, 0.35);
+    }
+
+    .glass-dark {
+      background: rgba(36, 29, 30, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(229, 195, 146, 0.22);
+    }
+
+    /* Custom scrollbars hidden */
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+  </style>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-[#191114] text-brand-charcoal font-sans antialiased overflow-x-hidden selection:bg-brand-rose selection:text-white relative min-h-[100dvh]">
+
+  <!-- Ambient Bokeh & Warm Lighting Background Layer -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <!-- Atmospheric generated café photo with warm vignette blend -->
+    <div class="absolute inset-0 opacity-40 mix-blend-screen scale-105 bg-drift bg-cover bg-center filter blur-[1px]"
+         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1dFmX7ZAdlDIJLuXfYITtgbLJHtJ2qUDkwEQ9q8CDRUSDiZRxvU7bwG3lPlQDGIxO1klcVmr-24ZAY0FqQXbYRcI6F13-yELrx22T9d8YXCmNdOfADcNEDrtC9u5sT9tALK8LV4jpwMVW9GVbyoxXz3BYw7DxthXdcf5D6Tlfl3OFsSWf2R3YGTJJXbBinVVC63gHeDI0zzSYlPxLuzKHRmasXkLlZ2ajFboB89P2hJsG-j6VGYF4');"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#1C0F13]/90 via-[#27141A]/75 to-[#160B0E]/95"></div>
+
+    <!-- Glowing soft light orbs -->
+    <div class="absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-brand-champagne/15 filter blur-3xl animate-float"></div>
+    <div class="absolute bottom-10 right-1/4 w-[28rem] h-[28rem] rounded-full bg-brand-rose/10 filter blur-3xl animate-float" style="animation-delay: -3.5s;"></div>
+    <div class="absolute top-1/2 left-10 w-80 h-80 rounded-full bg-brand-burgundy/30 filter blur-3xl"></div>
+
+    <!-- Canvas Petals & Confetti Container -->
+    <div id="particles-overlay" class="absolute inset-0 pointer-events-none z-20 overflow-hidden"></div>
+  </div>
+
+  <!-- Subtle Easter Egg in top corner -->
+  <div class="fixed top-5 right-6 z-50">
+    <button onclick="triggerEasterEgg()" 
+            title="A tiny detail..."
+            class="group flex items-center space-x-2 text-brand-champagne/60 hover:text-brand-champagne transition-all duration-300 focus:outline-none p-2 rounded-full hover:bg-white/5">
+      <span class="text-xs font-script tracking-wider opacity-0 group-hover:opacity-100 transition-opacity text-brand-champagne/80 mr-1 hidden sm:inline">a secret?</span>
+      <svg class="w-5 h-5 transform group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l2.4 7.2h7.6l-6.2 4.5 2.4 7.3-6.2-4.5-6.2 4.5 2.4-7.3-6.2-4.5h7.6z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Easter Egg Toast Modal -->
+  <div id="easter-egg-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-brand-paper border border-brand-champagne/40 rounded-2xl p-7 max-w-sm w-full shadow-2xl text-center relative transform scale-95 transition-transform duration-300" id="easter-egg-card">
+      <div class="w-12 h-12 mx-auto rounded-full bg-brand-blush/40 flex items-center justify-center text-brand-burgundy mb-4 text-xl">✨</div>
+      <h4 class="font-serif text-2xl text-brand-burgundy font-bold mb-2">You found the tiny secret. 👀</h4>
+      <p class="font-script text-2xl text-brand-muted mb-6">Okay, now you’re definitely smiling.</p>
+      <button onclick="closeEasterEgg()" class="w-full py-2.5 px-6 rounded-full bg-brand-burgundy text-brand-paper hover:bg-brand-burgundyDark font-medium text-sm transition-all duration-200">
+        Back to the story 💫
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Multi-Screen Container -->
+  <main class="relative z-10 min-h-[100dvh] flex items-center justify-center px-4 py-2 sm:py-12 max-w-4xl mx-auto">
+
+    <!-- ========================================== -->
+    <!-- SCREEN 1: OPENING / MYSTERY PAGE          -->
+    <!-- ========================================== -->
+    <section id="screen-1" class="screen-view screen-active w-full flex flex-col items-center justify-center text-center">
+      <div class="glass-dark border border-brand-champagne/25 p-4 sm:p-10 rounded-3xl max-w-xl w-full shadow-2xl relative overflow-hidden backdrop-blur-xl">
+        <!-- Subtle corner flourishes -->
+        <div class="absolute top-4 left-4 text-brand-champagne/40 font-script text-sm select-none">private • for Manya</div>
+        <div class="absolute top-4 right-4 text-brand-champagne/30 text-xs">№ 01</div>
+        <div class="absolute -bottom-10 -right-10 w-36 h-36 bg-brand-burgundy/40 rounded-full filter blur-2xl"></div>
+
+        <!-- Floating Animated Wax Seal / Note Icon -->
+        <div class="mx-auto mb-6 relative group cursor-pointer" onclick="goToScreen(2)">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-brand-burgundy via-[#762734] to-brand-rose p-0.5 shadow-lg shadow-brand-burgundy/30 animate-pulse-glow flex items-center justify-center">
+            <div class="w-full h-full rounded-full bg-[#271217] flex items-center justify-center">
+              <svg class="w-8 h-8 text-brand-champagne/90 transform transition-transform group-hover:scale-110 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <span class="absolute -bottom-2 -right-1 bg-brand-champagne text-brand-burgundyDark text-[10px] font-bold px-2 py-0.5 rounded-full shadow">for you</span>
+        </div>
+
+        <!-- Typography Sequence -->
+        <p class="font-script text-2xl sm:text-4xl text-brand-champagne/90 mb-2 tracking-wide">Hey, Manya...</p>
+        <h1 class="font-serif text-2xl sm:text-5xl text-brand-paper font-semibold tracking-tight leading-snug mb-3">
+          I made something for you.
+        </h1>
+        <p class="font-sans text-brand-paper/70 text-sm sm:text-base font-normal max-w-md mx-auto mb-4 sm:mb-8 leading-relaxed">
+          Nothing complicated. Just one little question.
+        </p>
+
+        <!-- Primary CTA Button -->
+        <div class="flex flex-col items-center justify-center space-y-3">
+          <button onclick="goToScreen(2)" 
+                  class="group relative inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-medium tracking-wide text-brand-burgundyDark bg-gradient-to-r from-brand-champagne via-[#F1D8B4] to-brand-champagne hover:shadow-lg hover:shadow-brand-champagne/25 hover:scale-[1.03] active:scale-95 transition-all duration-300">
+            <span>Open it ✨</span>
+            <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </button>
+          <span class="text-xs text-brand-paper/40 font-script text-base">Take your time.</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 2: CURIOSITY SCREEN                -->
+    <!-- ========================================== -->
+    <section id="screen-2" class="screen-view screen-hidden w-full flex flex-col items-center justify-center">
+      <div class="paper-texture text-brand-charcoal p-4 sm:p-10 rounded-3xl max-w-xl w-full shadow-2xl border border-brand-blush/60 relative transform">
+        <!-- Postage stamp detail -->
+        <div class="absolute top-5 right-5 w-14 h-16 border border-dashed border-brand-rose/60 rounded bg-brand-ivory p-1 flex flex-col items-center justify-center shadow-sm rotate-2">
+          <span class="text-[9px] text-brand-muted uppercase font-sans tracking-widest">Note</span>
+          <span class="text-sm">☕</span>
+          <span class="text-[8px] text-brand-rose font-script font-bold">Special</span>
+        </div>
+
+        <!-- Handwritten note header -->
+        <div class="inline-block mb-3 px-3 py-1 rounded-full bg-brand-blush/40 text-brand-burgundy text-xs font-medium">
+          Curious thought
+        </div>
+        
+        <p class="font-script text-2xl sm:text-4xl text-brand-rose font-semibold mb-3">
+          Okay... this might be a little random.
+        </p>
+
+        <h2 class="font-serif text-2xl sm:text-4xl text-brand-burgundy font-bold leading-tight mb-5">
+          But I’ve been wanting to ask you something.
+        </h2>
+
+        <p class="font-sans text-brand-charcoal/80 text-base sm:text-lg leading-relaxed mb-6 font-normal">
+          And I thought asking you like this would be a little more memorable than a regular text message.
+        </p>
+
+        <!-- Decorative hand-drawn illustration row -->
+        <div class="hidden sm:flex items-center justify-center space-x-6 py-4 my-2 border-y border-brand-rose/20 text-brand-muted/70 text-sm">
+          <span class="flex items-center gap-1 font-script text-xl text-brand-burgundy">🌸 a soft thought</span>
+          <span class="text-brand-rose">•</span>
+          <span class="flex items-center gap-1 font-script text-xl text-brand-burgundy">☕ a quiet evening</span>
+          <span class="text-brand-rose">•</span>
+          <span class="flex items-center gap-1 font-script text-xl text-brand-burgundy">✨ no rush</span>
+        </div>
+
+        <div class="mt-4 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <button onclick="goToScreen(1)" class="text-xs text-brand-muted hover:text-brand-burgundy font-medium tracking-wide transition-colors">
+            ← Back
+          </button>
+          
+          <div class="flex flex-col items-center sm:items-end">
+            <button onclick="goToScreen(3)" 
+                    class="inline-flex items-center justify-center px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide text-brand-paper bg-brand-burgundy hover:bg-brand-burgundyDark hover:shadow-lg hover:shadow-brand-burgundy/20 hover:scale-[1.02] active:scale-98 transition-all duration-300">
+              <span>Keep going →</span>
+            </button>
+            <span class="text-[11px] text-brand-muted/75 font-sans mt-2 italic">
+              Trust me, there’s no dramatic plot twist... probably.
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 3: PERSONAL MESSAGE / HONEST NOTE   -->
+    <!-- ========================================== -->
+    <section id="screen-3" class="screen-view screen-hidden w-full flex flex-col items-center justify-center">
+      <div class="paper-texture text-brand-charcoal p-4 sm:p-10 rounded-3xl max-w-xl w-full shadow-2xl border border-brand-blush/60 relative">
+        <div class="flex items-center justify-between mb-4">
+          <span class="font-script text-2xl text-brand-rose">Dear Manya,</span>
+          <span class="text-xs font-sans text-brand-muted bg-white/70 px-3 py-1 rounded-full border border-brand-blush">A tiny bit of honesty</span>
+        </div>
+
+        <div class="space-y-5 my-6">
+          <p class="font-sans text-base sm:text-lg text-brand-charcoal/90 leading-relaxed font-normal">
+            I really enjoy talking to you. I like your presence, your conversations, and the little moments that somehow stay in my mind.
+          </p>
+
+          <div class="w-12 h-0.5 bg-brand-rose/40 my-3"></div>
+
+          <p class="font-script text-2xl sm:text-4xl text-brand-burgundy leading-snug">
+            So I thought...
+          </p>
+
+          <h3 class="font-serif text-2xl sm:text-4xl text-brand-burgundy font-bold leading-tight">
+            Why not create one more?
+          </h3>
+
+          <p class="font-sans text-brand-rose font-medium text-base">
+            One nice memory. Just for the two of us.
+          </p>
+        </div>
+
+        <div class="mt-4 sm:mt-8 pt-5 border-t border-brand-rose/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <button onclick="goToScreen(2)" class="text-xs text-brand-muted hover:text-brand-burgundy font-medium tracking-wide transition-colors">
+            ← Previous
+          </button>
+          
+          <button onclick="goToScreen(4)" 
+                  class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide text-brand-paper bg-brand-burgundy hover:bg-brand-burgundyDark hover:shadow-lg hover:shadow-brand-burgundy/20 hover:scale-[1.02] active:scale-98 transition-all duration-300">
+            <span>Tell me the question →</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 4: THE ACTUAL DATE INVITATION       -->
+    <!-- ========================================== -->
+    <section id="screen-4" class="screen-view screen-hidden w-full flex flex-col items-center justify-center text-center">
+      <div class="glass-dark border border-brand-champagne/35 p-4 sm:p-10 rounded-3xl max-w-xl w-full shadow-2xl relative backdrop-blur-2xl">
+        <!-- Atmospheric Café badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-champagne/15 border border-brand-champagne/30 text-brand-champagne text-xs mb-5 font-sans">
+          <span>🕯️</span>
+          <span class="tracking-wide font-medium">An evening invitation</span>
+        </div>
+
+        <p class="font-script text-2xl sm:text-4xl text-brand-champagne/90 mb-3">
+          I have a question for you...
+        </p>
+
+        <!-- Big Question -->
+        <h2 class="font-serif text-2xl sm:text-5xl text-brand-paper font-bold leading-snug tracking-tight mb-4">
+          Would you go on a date with me?
+        </h2>
+
+        <p class="font-sans text-brand-paper/85 text-base sm:text-lg leading-relaxed max-w-md mx-auto mb-5 font-light">
+          Just you, me, some good food, a little time together, and hopefully a lot of laughs.
+        </p>
+
+        <p class="font-script text-2xl text-brand-champagne mb-4 sm:mb-8">
+          No pressure. I’d genuinely love to know what you think. ❤️
+        </p>
+
+        <!-- The Decision Buttons (YES & NO) -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+          <!-- YES Button -->
+          <button onclick="handleYesClick()" 
+                  id="btn-yes-primary"
+                  class="w-full sm:w-1/2 py-4 px-6 rounded-full font-sans font-semibold text-base text-brand-burgundyDark bg-gradient-to-r from-brand-champagne via-[#F4DEBF] to-brand-champagne shadow-lg shadow-brand-champagne/30 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-2">
+            <span>YES ✨</span>
+          </button>
+
+          <!-- NO Button (Polite, functional, never running away) -->
+          <button onclick="handleNoClick()" 
+                  id="btn-no-primary"
+                  class="w-full sm:w-1/2 py-4 px-6 rounded-full font-sans font-medium text-base text-brand-paper/80 bg-white/5 hover:bg-white/10 border border-brand-paper/20 hover:border-brand-paper/40 hover:text-white transition-all duration-300">
+            <span>No, thank you</span>
+          </button>
+        </div>
+
+        <div class="mt-6">
+          <button onclick="goToScreen(3)" class="text-xs text-brand-paper/40 hover:text-brand-paper/70 transition-colors">
+            ← Read note again
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 5: POLITE ROMANTIC LOOP (NO FLOW)   -->
+    <!-- ========================================== -->
+    <section id="screen-no-flow" class="screen-view screen-hidden w-full flex flex-col items-center justify-center text-center">
+      <div class="paper-texture text-brand-charcoal p-4 sm:p-10 rounded-3xl max-w-lg w-full shadow-2xl border border-brand-blush/80 relative text-left">
+        <!-- Dynamic header depending on loop stage -->
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-sans uppercase tracking-widest text-brand-muted" id="no-stage-indicator">Gentle note</span>
+          <span class="text-lg" id="no-emoji-indicator">😌</span>
+        </div>
+
+        <div id="no-content-container" class="space-y-4 my-3">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+        <div id="no-actions-container" class="mt-4 sm:mt-8 pt-5 border-t border-brand-rose/20 flex flex-col gap-3">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 6: YES CELEBRATION SCREEN          -->
+    <!-- ========================================== -->
+    <section id="screen-yes-celebrate" class="screen-view screen-hidden w-full flex flex-col items-center justify-center text-center">
+      <div class="glass-dark border border-brand-champagne/40 p-4 sm:p-10 rounded-3xl max-w-xl w-full shadow-2xl relative backdrop-blur-2xl overflow-hidden">
+        <div class="w-16 h-16 mx-auto rounded-full bg-brand-champagne/20 border border-brand-champagne/40 flex items-center justify-center text-3xl mb-5 animate-pulse-glow">
+          🥹
+        </div>
+
+        <p class="font-script text-2xl sm:text-4xl text-brand-champagne mb-2">Wait... really?</p>
+        
+        <h2 class="font-serif text-2xl sm:text-5xl text-brand-paper font-bold leading-tight mb-4">
+          You actually said yes!
+        </h2>
+
+        <p class="font-script text-2xl sm:text-3xl text-brand-blush mb-4">
+          I’m smiling like an idiot right now.
+        </p>
+
+        <p class="font-sans text-brand-paper/85 text-base sm:text-lg mb-4 sm:mb-8 max-w-md mx-auto leading-relaxed">
+          Then it’s officially a date. Now we just have to decide where our little adventure begins. ✨
+        </p>
+
+        <button onclick="goToScreen('date-plan')" 
+                class="inline-flex items-center justify-center px-9 py-4 rounded-full font-sans font-semibold text-base text-brand-burgundyDark bg-gradient-to-r from-brand-champagne via-[#F6E3C7] to-brand-champagne shadow-xl shadow-brand-champagne/25 hover:scale-105 active:scale-95 transition-all duration-300">
+          <span>See what I planned →</span>
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 7: DATE PLAN DETAILS CARD           -->
+    <!-- ========================================== -->
+    <section id="screen-date-plan" class="screen-view screen-hidden w-full flex flex-col items-center justify-center">
+      <div class="paper-texture text-brand-charcoal p-4 sm:p-10 rounded-3xl max-w-2xl w-full shadow-2xl border border-brand-blush/80 relative">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-rose/20 pb-4 mb-6">
+          <div>
+            <span class="text-xs uppercase tracking-widest text-brand-rose font-semibold">Special Invitation</span>
+            <h2 class="font-serif text-2xl sm:text-4xl text-brand-burgundy font-bold">Our little plan</h2>
+          </div>
+          <div class="font-script text-2xl text-brand-muted">
+            curated for Manya & Krishna
+          </div>
+        </div>
+
+        <!-- Plan Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <!-- Time & Date -->
+          <div class="p-4 rounded-2xl bg-white/70 border border-brand-blush/60 shadow-sm flex items-start space-x-3">
+            <div class="p-2.5 rounded-xl bg-brand-blush/40 text-brand-burgundy text-lg">📅</div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Date & Time</div>
+              <div class="font-serif text-lg font-bold text-brand-burgundy">This upcoming weekend</div>
+              <div class="text-xs text-brand-charcoal/70">Late evening • Around 7:30 PM (or whenever suits you)</div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="p-4 rounded-2xl bg-white/70 border border-brand-blush/60 shadow-sm flex items-start space-x-3">
+            <div class="p-2.5 rounded-xl bg-brand-blush/40 text-brand-burgundy text-lg">☕</div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Place</div>
+              <div class="font-serif text-lg font-bold text-brand-burgundy">Cozy Corner Café / Bistro</div>
+              <div class="text-xs text-brand-charcoal/70">Warm lights, quiet window table, great dessert</div>
+            </div>
+          </div>
+
+          <!-- The Vibe -->
+          <div class="p-4 rounded-2xl bg-white/70 border border-brand-blush/60 shadow-sm flex items-start space-x-3">
+            <div class="p-2.5 rounded-xl bg-brand-blush/40 text-brand-burgundy text-lg">✨</div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">The Vibe</div>
+              <div class="font-serif text-lg font-bold text-brand-burgundy">Good Food • Better Chats</div>
+              <div class="text-xs text-brand-charcoal/70">Zero awkward expectations, 100% comfort</div>
+            </div>
+          </div>
+
+          <!-- Dress Code -->
+          <div class="p-4 rounded-2xl bg-white/70 border border-brand-blush/60 shadow-sm flex items-start space-x-3">
+            <div class="p-2.5 rounded-xl bg-brand-blush/40 text-brand-burgundy text-lg">🧥</div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Dress Code</div>
+              <div class="font-serif text-lg font-bold text-brand-burgundy">Come as yourself</div>
+              <div class="text-xs text-brand-charcoal/70">Cozy, casual, comfortable, you.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decorative Location Sketch Card -->
+        <div class="p-4 rounded-2xl bg-brand-burgundy/5 border border-brand-rose/25 mb-6 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-brand-burgundy/10 flex items-center justify-center text-brand-burgundy">
+              📍
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-brand-burgundy">Pick-up or Meet at location?</div>
+              <div class="text-xs text-brand-muted">Whichever makes you feel most comfortable and relaxed.</div>
+            </div>
+          </div>
+          <span class="text-xs font-script text-xl text-brand-rose hidden sm:inline">Your choice</span>
+        </div>
+
+        <p class="text-center font-sans text-xs sm:text-sm text-brand-muted italic mb-6">
+          “The important part is that we both have a genuinely good time.”
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <button onclick="goToScreen(4)" class="text-xs text-brand-muted hover:text-brand-burgundy transition-colors">
+            ← Change answer
+          </button>
+
+          <button onclick="goToScreen('final-closing')" 
+                  class="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 rounded-full font-sans font-semibold text-base text-brand-paper bg-brand-burgundy hover:bg-brand-burgundyDark hover:shadow-lg hover:shadow-brand-burgundy/30 hover:scale-[1.02] active:scale-98 transition-all duration-300">
+            <span>I’m in ❤️</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SCREEN 8: FINAL ROMANTIC CLOSING          -->
+    <!-- ========================================== -->
+    <section id="screen-final-closing" class="screen-view screen-hidden w-full flex flex-col items-center justify-center text-center">
+      <div class="glass-dark border border-brand-champagne/30 p-4 sm:p-10 rounded-3xl max-w-lg w-full shadow-2xl relative backdrop-blur-2xl">
+        <!-- Floating tiny decorative lights -->
+        <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-brand-champagne/15 flex items-center justify-center text-2xl">
+          ✨
+        </div>
+
+        <h2 class="font-serif text-2xl sm:text-5xl text-brand-paper font-bold leading-tight mb-4">
+          Then I’ll see you there. ✨
+        </h2>
+
+        <p class="font-script text-2xl sm:text-3xl text-brand-champagne mb-4">
+          And thank you for saying yes.
+        </p>
+
+        <p class="font-sans text-brand-paper/80 text-sm sm:text-base max-w-sm mx-auto mb-6 leading-relaxed">
+          Whatever happens, I’m really glad I asked. I’m looking forward to our little evening together.
+        </p>
+
+        <div class="pt-4 border-t border-brand-champagne/20 flex flex-col items-center">
+          <span class="font-script text-3xl text-brand-champagne tracking-wider mb-4">— Krishna</span>
+          
+          <button onclick="restartExperience()" class="text-xs text-brand-paper/40 hover:text-brand-paper/80 transition-colors inline-flex items-center gap-1">
+            <span>↺ Replay the note</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Logic & Subtle Particle Generation -->
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://daazyubhzgdvoeccrwhj.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhYXp5dWJoemdkdm9lY2Nyd2hqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2MTAwMTUsImV4cCI6MjEwNjE4NjAxNX0.NnKDA0tiznT1ySDJlxKqzUv_8zMCUzeSLzeGMdnWk04';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function logResponse(answer) {
+      if (SUPABASE_URL === 'YOUR_SUPABASE_URL') {
+        console.warn('Supabase not configured. Please add your URL and Key.');
+        return;
+      }
+      try {
+        await supabaseClient.from('responses').insert([{ response: answer }]);
+      } catch (err) {
+        console.error('Error logging to Supabase:', err);
+      }
+    }
+
+    // State Tracker
+    let noLoopState = 1;
+
+    function goToScreen(screenKey) {
+      // Hide all screens
+      const allScreens = document.querySelectorAll('.screen-view');
+      allScreens.forEach(s => {
+        s.classList.remove('screen-active');
+        s.classList.add('screen-hidden');
+      });
+
+      // Target resolution
+      let targetId = '';
+      if (typeof screenKey === 'number') {
+        targetId = `screen-${screenKey}`;
+      } else {
+        targetId = `screen-${screenKey}`;
+      }
+
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.classList.remove('screen-hidden');
+        target.classList.add('screen-active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // YES Button triggers celebratory ambient particles and moves to Screen 6
+    function handleYesClick() {
+      logResponse('yes');
+      createPetalsAndSparkles();
+      goToScreen('yes-celebrate');
+    }
+
+    // NO Button Polite Sequence logic
+    function handleNoClick() {
+      logResponse('no');
+      noLoopState = 1;
+      renderNoLoopState();
+      goToScreen('no-flow');
+    }
+
+    const noStates = [
+      {
+        indicator: "Totally fair", emoji: "😌",
+        title: "Totally fair. 😌",
+        body1: "I had to ask at least once. But before you go...",
+        body2: "What if it’s just coffee? Nothing formal at all.",
+        btnYes: "Maybe coffee? ☕",
+        btnNo: "No, really — maybe another time"
+      },
+      {
+        indicator: "Compromise", emoji: "🍰",
+        title: "Alright, what if we call it a conversation with snacks?",
+        body1: "No romance pressure, no fancy dinner requirements. Just good coffee, a warm dessert, and two people talking.",
+        body2: "Dessert makes everything 10x better anyway.",
+        btnYes: "That sounds tempting 🍰",
+        btnNo: "Still no"
+      },
+      {
+        indicator: "Final honest check", emoji: "😅",
+        title: "Okay, last attempt. Promise.",
+        body1: "One evening. One table. Two people. Zero awkward expectations. If you’re not having fun after 30 minutes, I’ll happily get your dessert to-go and say goodbye!",
+        body2: "Deal?",
+        btnYes: "Okay, maybe... ✨",
+        btnNo: "I’d rather not"
+      },
+      {
+        indicator: "Wait...", emoji: "🥺",
+        title: "Are you absolutely sure?",
+        body1: "I promise I'm at least 15% funnier in person.",
+        body2: "And I know a place with amazing food.",
+        btnYes: "Food sounds good 🍕",
+        btnNo: "Nope, still no"
+      },
+      {
+        indicator: "Negotiation phase", emoji: "🤝",
+        title: "Okay, let's negotiate.",
+        body1: "You get free food, good company, and full control over the playlist in the car.",
+        body2: "That's a pretty solid deal.",
+        btnYes: "You had me at playlist 🎵",
+        btnNo: "Nice try, but no"
+      },
+      {
+        indicator: "Desperation", emoji: "😭",
+        title: "I'm running out of cool things to say.",
+        body1: "My code is literally trapped in this loop until you say yes.",
+        body2: "Please free me.",
+        btnYes: "Okay, fine 😂",
+        btnNo: "I like seeing you struggle"
+      },
+      {
+        indicator: "Stubbornness", emoji: "🫠",
+        title: "Wow, you're really stubborn.",
+        body1: "But honestly, that's one of the things I like about you.",
+        body2: "Just click yes. We both know it's easier this way.",
+        btnYes: "Alright, alright ✨",
+        btnNo: "Watch me click no again"
+      },
+      {
+        indicator: "Plot twist", emoji: "🤯",
+        title: "What if the 'No' button is broken?",
+        body1: "I mean, it clearly isn't doing what you want it to do.",
+        body2: "Might as well try the other button.",
+        btnYes: "Let's see if this works 💖",
+        btnNo: "I will break this button"
+      },
+      {
+        indicator: "The Loop", emoji: "♾️",
+        title: "We can do this all day.",
+        body1: "I have infinite patience.",
+        body2: "And a very persistent set of messages.",
+        btnYes: "I yield! Yes! 🏁",
+        btnNo: "Bring it on"
+      },
+      {
+        indicator: "Still going", emoji: "🥱",
+        title: "Getting tired yet?",
+        body1: "My clicker finger is fine. How's yours?",
+        body2: "Let's just save us both some time.",
+        btnYes: "Yes, finally",
+        btnNo: "No, I have stamina"
+      },
+      {
+        indicator: "Please?", emoji: "🥺",
+        title: "Just one yes?",
+        body1: "It would make my whole week.",
+        body2: "And it's just a button click...",
+        btnYes: "Okay, yes",
+        btnNo: "No."
+      }
+    ];
+
+    function renderNoLoopState() {
+      const container = document.getElementById('no-content-container');
+      const actions = document.getElementById('no-actions-container');
+      const indicator = document.getElementById('no-stage-indicator');
+      const emoji = document.getElementById('no-emoji-indicator');
+
+      let stateIndex = (noLoopState - 1) % noStates.length;
+      let state = noStates[stateIndex];
+
+      indicator.innerText = state.indicator;
+      emoji.innerText = state.emoji;
+      container.innerHTML = `
+        <h3 class="font-serif text-xl sm:text-3xl text-brand-burgundy font-bold">${state.title}</h3>
+        <p class="font-sans text-brand-charcoal/80 text-base leading-relaxed">
+          ${state.body1}
+        </p>
+        <p class="font-script text-2xl text-brand-rose">
+          ${state.body2}
+        </p>
+      `;
+
+      let noButtonHtml = '';
+      if (stateIndex === noStates.length - 1) {
+        noButtonHtml = `
+          <button onmouseover="dodgeButton(this)" onclick="dodgeButton(this)" class="inline-block py-2.5 px-6 rounded-full font-sans font-medium text-xs text-brand-muted border border-brand-rose/30 hover:border-brand-rose/60 transition-all duration-300 ease-out z-50">
+            ${state.btnNo}
+          </button>
+        `;
+      } else {
+        noButtonHtml = `
+          <button onclick="advanceNoLoop(${noLoopState + 1})" class="w-full py-2.5 px-6 rounded-full font-sans font-medium text-xs text-brand-muted border border-brand-rose/30 hover:border-brand-rose/60 transition-all">
+            ${state.btnNo}
+          </button>
+        `;
+      }
+
+      actions.innerHTML = `
+        <button onclick="handleYesClick()" class="w-full py-3.5 px-6 rounded-full font-sans font-semibold text-sm text-brand-burgundyDark bg-brand-champagne hover:brightness-105 transition-all shadow-md mb-2">
+          ${state.btnYes}
+        </button>
+        ${noButtonHtml}
+      `;
+    }
+
+    function advanceNoLoop(step) {
+      noLoopState = step;
+      renderNoLoopState();
+    }
+
+    function dodgeButton(btn) {
+      btn.style.position = 'fixed';
+      const maxX = window.innerWidth - btn.offsetWidth - 40;
+      const maxY = (window.innerHeight * 0.8) - btn.offsetHeight - 40;
+      const x = Math.max(20, Math.random() * maxX);
+      const y = Math.max(20, Math.random() * maxY);
+      btn.style.left = `${x}px`;
+      btn.style.top = `${y}px`;
+    }
+
+    function restartExperience() {
+      noLoopState = 1;
+      goToScreen(1);
+    }
+
+    // Easter Egg modal handlers
+    function triggerEasterEgg() {
+      const modal = document.getElementById('easter-egg-modal');
+      const card = document.getElementById('easter-egg-card');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeEasterEgg() {
+      const modal = document.getElementById('easter-egg-modal');
+      const card = document.getElementById('easter-egg-card');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      card.classList.add('scale-95');
+      card.classList.remove('scale-100');
+    }
+
+    // Gentle particle effect for YES
+    function createPetalsAndSparkles() {
+      const overlay = document.getElementById('particles-overlay');
+      overlay.innerHTML = ''; // reset previous
+
+      const symbols = ['🌸', '✨', '🤍', '🍂', '✨', '🕯️'];
+      const count = 28;
+
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'absolute select-none pointer-events-none';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = '-20px';
+        particle.style.fontSize = (Math.random() * 14 + 14) + 'px';
+        particle.style.animation = `fallingPetal ${Math.random() * 4 + 4}s linear infinite`;
+        particle.style.animationDelay = (Math.random() * 3) + 's';
+        particle.style.opacity = Math.random() * 0.7 + 0.3;
+        particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        overlay.appendChild(particle);
+      }
+
+      // Cleanup after 10 seconds
+      setTimeout(() => {
+        overlay.innerHTML = '';
+      }, 12000);
+    }
+  </script>
+</body>
+</html>

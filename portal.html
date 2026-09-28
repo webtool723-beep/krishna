@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Response Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 p-8 font-sans">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-bold text-gray-900">Manya's Response Logs</h1>
+      <button onclick="fetchLogs()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Refresh Logs
+      </button>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Timestamp
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Response
+            </th>
+          </tr>
+        </thead>
+        <tbody id="logs-body" class="bg-white divide-y divide-gray-200">
+          <tr>
+            <td colspan="2" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+              Loading...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://daazyubhzgdvoeccrwhj.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhYXp5dWJoemdkdm9lY2Nyd2hqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2MTAwMTUsImV4cCI6MjEwNjE4NjAxNX0.NnKDA0tiznT1ySDJlxKqzUv_8zMCUzeSLzeGMdnWk04';
+    
+    let supabaseClient = null;
+    if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    async function fetchLogs() {
+      const tbody = document.getElementById('logs-body');
+      
+      if (!supabaseClient) {
+        tbody.innerHTML = '<tr><td colspan="2" class="px-6 py-4 text-center text-red-500">Please configure your Supabase URL and Key in the source code.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '<tr><td colspan="2" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Refreshing...</td></tr>';
+      
+      try {
+        const { data, error } = await supabaseClient
+          .from('responses')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (error) throw error;
+        
+        if (!data || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" class="px-6 py-4 text-center text-gray-500">No responses recorded yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.map(row => {
+          const date = new Date(row.created_at).toLocaleString();
+          const isYes = row.response.toLowerCase() === 'yes';
+          const badgeClass = isYes
+            ? 'bg-green-100 text-green-800' 
+            : 'bg-red-100 text-red-800';
+            
+          return `
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                ${date}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${badgeClass}">
+                  ${row.response.toUpperCase()}
+                </span>
+              </td>
+            </tr>
+          `;
+        }).join('');
+        
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = `<tr><td colspan="2" class="px-6 py-4 text-center text-red-500">Error fetching logs. Make sure your Supabase table is created and policies allow reading.</td></tr>`;
+      }
+    }
+
+    // Initial fetch
+    fetchLogs();
+  </script>
+</body>
+</html>
